@@ -13,6 +13,7 @@ namespace Hashids\Tests;
 
 use Hashids\Math;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * This is the math test class.
@@ -23,29 +24,49 @@ class MathTest extends TestCase
 {
     public function testAdd()
     {
-        $this->assertEquals(Math::get(3), Math::add(1, 2));
+        try {
+            $this->assertEquals(Math::get(3), Math::add(1, 2));
+        } catch (RuntimeException $e) {
+            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+        }
     }
 
     public function testMultiply()
     {
-        $this->assertEquals(Math::get(12), Math::multiply(2, 6));
+        try {
+            $this->assertEquals(Math::get(12), Math::multiply(2, 6));
+        } catch (RuntimeException $e) {
+            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+        }
     }
 
     public function testDivide()
     {
-        $this->assertEquals(Math::get(2), Math::divide(4, 2));
+        try {
+            $this->assertEquals(Math::get(2), Math::divide(4, 2));
+        } catch (RuntimeException $e) {
+            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+        }
     }
 
     public function testGreaterThan()
     {
-        $this->assertTrue(Math::greaterThan('18446744073709551615', '9223372036854775807'));
-        $this->assertFalse(Math::greaterThan('9223372036854775807', '18446744073709551615'));
-        $this->assertFalse(Math::greaterThan('9223372036854775807', '9223372036854775807'));
+        try {
+            $this->assertTrue(Math::greaterThan('18446744073709551615', '9223372036854775807'));
+            $this->assertFalse(Math::greaterThan('9223372036854775807', '18446744073709551615'));
+            $this->assertFalse(Math::greaterThan('9223372036854775807', '9223372036854775807'));
+        } catch (RuntimeException $e) {
+            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+        }
     }
 
     public function testMod()
     {
-        $this->assertEquals(Math::get(15), Math::mod('18446744073709551615', '100'));
+        try {
+            $this->assertEquals(Math::get(15), Math::mod('18446744073709551615', '100'));
+        } catch (RuntimeException $e) {
+            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+        }
     }
 
     public function testIntval()
@@ -55,6 +76,10 @@ class MathTest extends TestCase
 
     public function testStrval()
     {
-        $this->assertSame('18446744073709551615', Math::strval(Math::add('0', '18446744073709551615')));
+        try {
+            $this->assertSame('18446744073709551615', Math::strval(Math::add('0', '18446744073709551615')));
+        } catch (RuntimeException $e) {
+            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+        }
     }
 }

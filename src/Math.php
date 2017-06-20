@@ -11,6 +11,8 @@
 
 namespace Hashids;
 
+use RuntimeException;
+
 /**
  * This is the math class.
  *
@@ -24,6 +26,8 @@ class Math
      * @param string $a
      * @param string $b
      *
+     * @throws \RuntimeException
+     *
      * @return string
      */
     public static function add($a, $b)
@@ -32,7 +36,11 @@ class Math
             return gmp_add($a, $b);
         }
 
-        return bcadd($a, $b, 0);
+        if (function_exists('bcadd')) {
+            return bcadd($a, $b, 0);
+        }
+
+        throw new RuntimeException('Missing BC Math or GMP extension.');
     }
 
     /**
@@ -40,6 +48,8 @@ class Math
      *
      * @param string $a
      * @param string $b
+     *
+     * @throws \RuntimeException
      *
      * @return string
      */
@@ -49,7 +59,11 @@ class Math
             return gmp_mul($a, $b);
         }
 
-        return bcmul($a, $b, 0);
+        if (function_exists('bcmul')) {
+            return bcmul($a, $b, 0);
+        }
+
+        throw new RuntimeException('Missing BC Math or GMP extension.');
     }
 
     /**
@@ -57,6 +71,8 @@ class Math
      *
      * @param string $a
      * @param string $b
+     *
+     * @throws \RuntimeException
      *
      * @return string
      */
@@ -66,7 +82,11 @@ class Math
             return gmp_div_q($a, $b);
         }
 
-        return bcdiv($a, $b, 0);
+        if (function_exists('bcdiv')) {
+            return bcdiv($a, $b, 0);
+        }
+
+        throw new RuntimeException('Missing BC Math or GMP extension.');
     }
 
     /**
@@ -74,6 +94,8 @@ class Math
      *
      * @param string $n
      * @param string $d
+     *
+     * @throws \RuntimeException
      *
      * @return string
      */
@@ -83,7 +105,11 @@ class Math
             return gmp_mod($n, $d);
         }
 
-        return bcmod($n, $d);
+        if (function_exists('bcmod')) {
+            return bcmod($n, $d);
+        }
+
+        throw new RuntimeException('Missing BC Math or GMP extension.');
     }
 
     /**
@@ -91,6 +117,8 @@ class Math
      *
      * @param string $a
      * @param string $b
+     *
+     * @throws \RuntimeException
      *
      * @return bool
      */
@@ -100,7 +128,11 @@ class Math
             return gmp_cmp($a, $b) > 0;
         }
 
-        return bccomp($a, $b, 0) > 0;
+        if (function_exists('bccomp')) {
+            return bccomp($a, $b, 0) > 0;
+        }
+
+        throw new RuntimeException('Missing BC Math or GMP extension.');
     }
 
     /**

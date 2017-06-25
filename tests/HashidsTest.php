@@ -12,7 +12,6 @@
 namespace Hashids\Tests;
 
 use Hashids\Hashids;
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 /**
@@ -20,7 +19,7 @@ use RuntimeException;
  *
  * @author Vincent Klaiber <hello@vinkla.com>
  */
-class HashidsTest extends TestCase
+class HashidsTest extends AbstractTestCase
 {
     /**
      * @expectedException \Hashids\HashidsException
@@ -58,7 +57,7 @@ class HashidsTest extends TestCase
 
             $this->assertSame('', $hashids->decodeHex('f'));
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -84,7 +83,7 @@ class HashidsTest extends TestCase
                 $this->assertSame($hashids->decode($id), $numbers);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -109,7 +108,7 @@ class HashidsTest extends TestCase
                 $this->assertSame($hashids->decode($id), $numbers);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -127,7 +126,7 @@ class HashidsTest extends TestCase
                 $this->assertLessThanOrEqual(strlen($id), $length);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -153,7 +152,7 @@ class HashidsTest extends TestCase
                 $this->assertSame($id, $hashids->encode($decodedNumbers));
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -188,7 +187,7 @@ class HashidsTest extends TestCase
                 $this->assertSame($numbers, $decodedNumbers);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -226,7 +225,7 @@ class HashidsTest extends TestCase
                 $this->assertLessThanOrEqual(strlen($encodedId), $minLength);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -254,7 +253,7 @@ class HashidsTest extends TestCase
                 $this->assertSame(strtolower($hex), $decodedHex);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -285,7 +284,7 @@ class HashidsTest extends TestCase
                 $this->assertLessThanOrEqual(strlen($encodedId), $minLength);
             }
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -309,7 +308,7 @@ class HashidsTest extends TestCase
             $encoded = $hashids->encode($number);
             $this->assertEquals($hash, $encoded);
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -323,7 +322,7 @@ class HashidsTest extends TestCase
             $decoded = $hashids->decode($hash);
             $this->assertEquals($number, $decoded[0]);
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 
@@ -338,7 +337,7 @@ class HashidsTest extends TestCase
             $encoded = $hashids->encode(1);
             $this->assertEquals('DngB0NV05ev1', $encoded);
         } catch (RuntimeException $e) {
-            $this->assertSame('Missing BC Math or GMP extension.', $e->getMessage());
+            $this->assertMissingExtension($e);
         }
     }
 }

@@ -76,8 +76,6 @@ class Hashids implements HashidsInterface
      * @param string $alphabet
      *
      * @throws \Hashids\HashidsException
-     *
-     * @return void
      */
     public function __construct($salt = '', $minHashLength = 0, $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
     {
@@ -129,8 +127,9 @@ class Hashids implements HashidsInterface
      *
      * @return string
      */
-    public function encode(...$numbers)
+    public function encode()
     {
+        $numbers = func_get_args();
         $ret = '';
 
         if (1 === count($numbers) && is_array($numbers[0])) {
@@ -206,7 +205,7 @@ class Hashids implements HashidsInterface
      */
     public function decode($hash)
     {
-        $ret = [];
+        $ret = array();
 
         if (!is_string($hash) || !($hash = trim($hash))) {
             return $ret;
@@ -214,7 +213,7 @@ class Hashids implements HashidsInterface
 
         $alphabet = $this->alphabet;
 
-        $ret = [];
+        $ret = array();
 
         $hashBreakdown = str_replace(str_split($this->guards), ' ', $hash);
         $hashArray = explode(' ', $hashBreakdown);
@@ -241,7 +240,7 @@ class Hashids implements HashidsInterface
             }
 
             if ($this->encode($ret) != $hash) {
-                $ret = [];
+                $ret = array();
             }
         }
 
@@ -268,7 +267,7 @@ class Hashids implements HashidsInterface
             $numbers[$i] = hexdec('1'.$number);
         }
 
-        return call_user_func_array([$this, 'encode'], $numbers);
+        return call_user_func_array(array($this, 'encode'), $numbers);
     }
 
     /**

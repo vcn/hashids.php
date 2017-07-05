@@ -29,7 +29,7 @@ class Math
     public static function add($a, $b)
     {
         if (function_exists('gmp_add')) {
-            return gmp_add($a, $b);
+            return static::strval(gmp_add($a, $b));
         }
 
         return bcadd($a, $b, 0);
@@ -46,7 +46,7 @@ class Math
     public static function multiply($a, $b)
     {
         if (function_exists('gmp_mul')) {
-            return gmp_mul($a, $b);
+            return static::strval(gmp_mul($a, $b));
         }
 
         return bcmul($a, $b, 0);
@@ -63,7 +63,7 @@ class Math
     public static function divide($a, $b)
     {
         if (function_exists('gmp_div_q')) {
-            return gmp_div_q($a, $b);
+            return static::strval(gmp_div_q($a, $b));
         }
 
         return bcdiv($a, $b, 0);
@@ -80,7 +80,7 @@ class Math
     public static function mod($n, $d)
     {
         if (function_exists('gmp_mod')) {
-            return gmp_mod($n, $d);
+            return static::strval(gmp_mod($n, $d));
         }
 
         return bcmod($n, $d);
@@ -97,7 +97,7 @@ class Math
     public static function greaterThan($a, $b)
     {
         if (function_exists('gmp_cmp')) {
-            return gmp_cmp($a, $b) > 0;
+            return static::strval(gmp_cmp($a, $b)) > 0;
         }
 
         return bccomp($a, $b, 0) > 0;
@@ -113,7 +113,7 @@ class Math
     public static function intval($a)
     {
         if (function_exists('gmp_intval')) {
-            return gmp_intval($a);
+            return intval(static::strval(gmp_intval($a)));
         }
 
         return intval($a);
@@ -145,7 +145,7 @@ class Math
     public static function get($a)
     {
         if (function_exists('gmp_init')) {
-            return gmp_init($a);
+            return static::strval(gmp_init($a));
         }
 
         return $a;

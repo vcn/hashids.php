@@ -42,15 +42,15 @@ class HashidsTest extends TestCase
         $hashids = new Hashids();
 
         $this->assertSame('', $hashids->encode());
-        $this->assertSame('', $hashids->encode([]));
+        $this->assertSame('', $hashids->encode(array()));
         $this->assertSame('', $hashids->encode(-1));
         $this->assertSame('', $hashids->encode('6B'));
         $this->assertSame('', $hashids->encode('123a'));
         $this->assertSame('', $hashids->encode(null));
-        $this->assertSame('', $hashids->encode(['z']));
+        $this->assertSame('', $hashids->encode(array('z')));
 
-        $this->assertSame([], $hashids->decode(''));
-        $this->assertSame([], $hashids->decode('f'));
+        $this->assertSame(array(), $hashids->decode(''));
+        $this->assertSame(array(), $hashids->decode('f'));
 
         $this->assertSame('', $hashids->encodeHex('z'));
 
@@ -59,16 +59,16 @@ class HashidsTest extends TestCase
 
     public function testAlphabet()
     {
-        $numbers = [1, 2, 3];
+        $numbers = array(1, 2, 3);
 
-        $alphabets = [
+        $alphabets = array(
             'cCsSfFhHuUiItT01',
             'abdegjklCFHISTUc',
             'abdegjklmnopqrSF',
             'abdegjklmnopqrvwxyzABDEGJKLMNOPQRVWXYZ1234567890',
             'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()-_=+\\|\'";:/?.>,<{[}]',
             '`~!@#$%^&*()-_=+\\|\'";:/?.>,<{[}]',
-        ];
+        );
 
         foreach ($alphabets as $alphabet) {
             $hashids = new Hashids('', 0, $alphabet);
@@ -81,15 +81,15 @@ class HashidsTest extends TestCase
 
     public function testSalt()
     {
-        $numbers = [1, 2, 3];
+        $numbers = array(1, 2, 3);
 
-        $salts = [
+        $salts = array(
             '',
             '   ',
             'this is my salt',
             'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()-_=+\\|\'";:/?.>,<{[}]',
             '`~!@#$%^&*()-_=+\\|\'";:/?.>,<{[}]',
-        ];
+        );
 
         foreach ($salts as $salt) {
             $hashids = new Hashids($salt);
@@ -102,9 +102,9 @@ class HashidsTest extends TestCase
 
     public function testMinLength()
     {
-        $numbers = [1, 2, 3];
+        $numbers = array(1, 2, 3);
 
-        foreach ([0, 1, 10, 999, 1000] as $length) {
+        foreach (array(0, 1, 10, 999, 1000) as $length) {
             $hashids = new Hashids('', $length);
 
             $id = $hashids->encode($numbers);
@@ -116,12 +116,12 @@ class HashidsTest extends TestCase
 
     public function testEncodeTypes()
     {
-        $numbers = [1, 2, 3];
+        $numbers = array(1, 2, 3);
 
-        $params = [
-            [1, 2, 3],
-            ['1', '2', '3'],
-        ];
+        $params = array(
+            array(1, 2, 3),
+            array('1', '2', '3'),
+        );
 
         foreach ($params as $param) {
             $hashids = new Hashids();
@@ -130,7 +130,7 @@ class HashidsTest extends TestCase
             $decodedNumbers = $hashids->decode($id);
             $this->assertSame($id, $hashids->encode($decodedNumbers));
 
-            $id = call_user_func_array([$hashids, 'encode'], $param);
+            $id = call_user_func_array(array($hashids, 'encode'), $param);
             $decodedNumbers = $hashids->decode($id);
             $this->assertSame($id, $hashids->encode($decodedNumbers));
         }
@@ -138,22 +138,22 @@ class HashidsTest extends TestCase
 
     public function testDefaultParams()
     {
-        $maps = [
-            'gY' => [0],
-            'jR' => [1],
-            'R8ZN0' => [928728],
-            'o2fXhV' => [1, 2, 3],
-            'jRfMcP' => [1, 0, 0],
-            'jQcMcW' => [0, 0, 1],
-            'gYcxcr' => [0, 0, 0],
-            'gLpmopgO6' => [1000000000000],
-            'lEW77X7g527' => [9007199254740991],
-            'BrtltWt2tyt1tvt7tJt2t1tD' => [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-            'G6XOnGQgIpcVcXcqZ4B8Q8B9y' => [10000000000, 0, 0, 0, 999999999999999],
-            '5KoLLVL49RLhYkppOplM6piwWNNANny8N' => [9007199254740991, 9007199254740991, 9007199254740991],
-            'BPg3Qx5f8VrvQkS16wpmwIgj9Q4Jsr93gqx' => [1000000001, 1000000002, 1000000003, 1000000004, 1000000005],
-            '1wfphpilsMtNumCRFRHXIDSqT2UPcWf1hZi3s7tN' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-        ];
+        $maps = array(
+            'gY' => array(0),
+            'jR' => array(1),
+            'R8ZN0' => array(928728),
+            'o2fXhV' => array(1, 2, 3),
+            'jRfMcP' => array(1, 0, 0),
+            'jQcMcW' => array(0, 0, 1),
+            'gYcxcr' => array(0, 0, 0),
+            'gLpmopgO6' => array(1000000000000),
+            'lEW77X7g527' => array(9007199254740991),
+            'BrtltWt2tyt1tvt7tJt2t1tD' => array(5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5),
+            'G6XOnGQgIpcVcXcqZ4B8Q8B9y' => array(10000000000, 0, 0, 0, 999999999999999),
+            '5KoLLVL49RLhYkppOplM6piwWNNANny8N' => array(9007199254740991, 9007199254740991, 9007199254740991),
+            'BPg3Qx5f8VrvQkS16wpmwIgj9Q4Jsr93gqx' => array(1000000001, 1000000002, 1000000003, 1000000004, 1000000005),
+            '1wfphpilsMtNumCRFRHXIDSqT2UPcWf1hZi3s7tN' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+        );
 
         $hashids = new Hashids();
 
@@ -162,29 +162,29 @@ class HashidsTest extends TestCase
             $decodedNumbers = $hashids->decode($encodedId);
 
             $this->assertSame($id, $encodedId);
-            $this->assertSame($id, call_user_func_array([$hashids, 'encode'], $numbers));
+            $this->assertSame($id, call_user_func_array(array($hashids, 'encode'), $numbers));
             $this->assertSame($numbers, $decodedNumbers);
         }
     }
 
     public function testCustomParams()
     {
-        $maps = [
-            'nej1m3d5a6yn875e7gr9kbwpqol02q' => [0],
-            'dw1nqdp92yrajvl9v6k3gl5mb0o8ea' => [1],
-            'onqr0bk58p642wldq14djmw21ygl39' => [928728],
-            '18apy3wlqkjvd5h1id7mn5ore2d06b' => [1, 2, 3],
-            'o60edky1ng3vl9hbfavwr5pa2q8mb9' => [1, 0, 0],
-            'o60edky1ng3vlqfbfp4wr5pa2q8mb9' => [0, 0, 1],
-            'qek2a08gpl575efrfd7yomj9dwbr63' => [0, 0, 0],
-            'm3d5a6yn875rae8y81a94gr9kbwpqo' => [1000000000000],
-            '1q3y98ln48w96kpo0wgk314w5mak2d' => [9007199254740991],
-            'op7qrcdc3cgc2c0cbcrcoc5clce4d6' => [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-            '5430bd2jo0lxyfkfjfyojej5adqdy4' => [10000000000, 0, 0, 0, 999999999999999],
-            'aa5kow86ano1pt3e1aqm239awkt9pk380w9l3q6' => [9007199254740991, 9007199254740991, 9007199254740991],
-            'mmmykr5nuaabgwnohmml6dakt00jmo3ainnpy2mk' => [1000000001, 1000000002, 1000000003, 1000000004, 1000000005],
-            'w1hwinuwt1cbs6xwzafmhdinuotpcosrxaz0fahl' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-        ];
+        $maps = array(
+            'nej1m3d5a6yn875e7gr9kbwpqol02q' => array(0),
+            'dw1nqdp92yrajvl9v6k3gl5mb0o8ea' => array(1),
+            'onqr0bk58p642wldq14djmw21ygl39' => array(928728),
+            '18apy3wlqkjvd5h1id7mn5ore2d06b' => array(1, 2, 3),
+            'o60edky1ng3vl9hbfavwr5pa2q8mb9' => array(1, 0, 0),
+            'o60edky1ng3vlqfbfp4wr5pa2q8mb9' => array(0, 0, 1),
+            'qek2a08gpl575efrfd7yomj9dwbr63' => array(0, 0, 0),
+            'm3d5a6yn875rae8y81a94gr9kbwpqo' => array(1000000000000),
+            '1q3y98ln48w96kpo0wgk314w5mak2d' => array(9007199254740991),
+            'op7qrcdc3cgc2c0cbcrcoc5clce4d6' => array(5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5),
+            '5430bd2jo0lxyfkfjfyojej5adqdy4' => array(10000000000, 0, 0, 0, 999999999999999),
+            'aa5kow86ano1pt3e1aqm239awkt9pk380w9l3q6' => array(9007199254740991, 9007199254740991, 9007199254740991),
+            'mmmykr5nuaabgwnohmml6dakt00jmo3ainnpy2mk' => array(1000000001, 1000000002, 1000000003, 1000000004, 1000000005),
+            'w1hwinuwt1cbs6xwzafmhdinuotpcosrxaz0fahl' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+        );
 
         $minLength = 30;
 
@@ -195,7 +195,7 @@ class HashidsTest extends TestCase
             $decodedNumbers = $hashids->decode($encodedId);
 
             $this->assertSame($id, $encodedId);
-            $this->assertSame($id, call_user_func_array([$hashids, 'encode'], $numbers));
+            $this->assertSame($id, call_user_func_array(array($hashids, 'encode'), $numbers));
             $this->assertSame($numbers, $decodedNumbers);
             $this->assertLessThanOrEqual(strlen($encodedId), $minLength);
         }
@@ -203,7 +203,7 @@ class HashidsTest extends TestCase
 
     public function testDefaultParamsHex()
     {
-        $maps = [
+        $maps = array(
             'wpVL4j9g' => 'deadbeef',
             'kmP69lB3xv' => 'abcdef123456',
             '47JWg0kv4VU0G2KBO2' => 'ABCDDD6666DDEEEEEEEEE',
@@ -212,7 +212,7 @@ class HashidsTest extends TestCase
             'wBlnMA23NLIQDgw7XxErc2mlNyAjpw' => 'abcdef123456abcdef123456abcdef123456',
             'VwLAoD9BqlT7xn4ZnBXJFmGZ51ZqrBhqrymEyvYLIP199' => 'f000000000000000000000000000000000000000000000000000f',
             'nBrz1rYyV0C0XKNXxB54fWN0yNvVjlip7127Jo3ri0Pqw' => 'fffffffffffffffffffffffffffffffffffffffffffffffffffff',
-        ];
+        );
 
         $hashids = new Hashids();
 
@@ -227,7 +227,7 @@ class HashidsTest extends TestCase
 
     public function testCustomParamsHex()
     {
-        $maps = [
+        $maps = array(
             '0dbq3jwa8p4b3gk6gb8bv21goerm96' => 'deadbeef',
             '190obdnk4j02pajjdande7aqj628mr' => 'abcdef123456',
             'a1nvl5d9m3yo8pj1fqag8p9pqw4dyl' => 'ABCDDD6666DDEEEEEEEEE',
@@ -236,7 +236,7 @@ class HashidsTest extends TestCase
             '9mnwgllqg1q2tdo63yya35a9ukgl6bbn6qn8' => 'abcdef123456abcdef123456abcdef123456',
             'edjrkn9m6o69s0ewnq5lqanqsmk6loayorlohwd963r53e63xmml29' => 'f000000000000000000000000000000000000000000000000000f',
             'grekpy53r2pjxwyjkl9aw0k3t5la1b8d5r1ex9bgeqmy93eata0eq0' => 'fffffffffffffffffffffffffffffffffffffffffffffffffffff',
-        ];
+        );
 
         $minLength = 30;
 
@@ -254,12 +254,12 @@ class HashidsTest extends TestCase
 
     public function bigNumberDataProvider()
     {
-        return [
-            [2147483647, 'ykJWW1g'], //max 32-bit signed integer
-            [4294967295, 'j4r6j8Y'], // max 32-bit unsigned integer
-            ['9223372036854775807', 'jvNx4BjM5KYjv'], // max 64-bit signed integer
-            ['18446744073709551615', 'zXVjmzBamYlqX'], // max 64-bit unsigned integer
-        ];
+        return array(
+            array(2147483647, 'ykJWW1g'), //max 32-bit signed integer
+            array(4294967295, 'j4r6j8Y'), // max 32-bit unsigned integer
+            array('9223372036854775807', 'jvNx4BjM5KYjv'), // max 64-bit signed integer
+            array('18446744073709551615', 'zXVjmzBamYlqX'), // max 64-bit unsigned integer
+        );
     }
 
     /**
